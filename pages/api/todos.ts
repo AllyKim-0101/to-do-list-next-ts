@@ -32,12 +32,17 @@ export default async function handler(
 ) {
   // Run the middleware
   await runMiddleware(req, res, cors);
-  console.log(req.body);
+
   // Rest of the API logic
   // Add title
   if (req.method === "POST") {
     res.json(req.body);
   } else {
-    res.json([]);
+    res.json(listToDos());
   }
+}
+
+export function listToDos() {
+  //Add empty array to start with
+  return [];
 }
