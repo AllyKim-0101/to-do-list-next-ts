@@ -25,7 +25,7 @@ function runMiddleware(
     });
   });
 }
-
+// anytime API gets request, it will execute the function
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -36,8 +36,10 @@ export default async function handler(
   // Rest of the API logic
   // Add title
   if (req.method === "POST") {
+    //sending response to client
     res.json(req.body);
   } else {
+    //sending response to client
     res.json(listToDos());
   }
 }
