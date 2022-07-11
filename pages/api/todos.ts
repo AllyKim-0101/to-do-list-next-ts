@@ -37,14 +37,38 @@ export default async function handler(
   // Add title
   if (req.method === "POST") {
     //sending response to client
-    res.json(req.body);
+    res.json(addTodo(req.body));
+  } else if (req.method === "DELETE") {
+    deleteAllTodos();
+    res.json(listToDos());
   } else {
     //sending response to client
     res.json(listToDos());
   }
 }
 
-export function listToDos() {
+type NewTodoItem = {
+  title: string;
+};
+
+type Item = {
+  title: string;
+  completed: boolean;
+};
+
+let list: Array<Item> = [];
+
+export function listToDos(): Array<Item> {
   //Add empty array to start with
-  return [];
+  return list;
 }
+
+export function addTodo(item: NewTodoItem) {
+  const listItem = { ...item, completed: false };
+  list.push(listItem);
+  return listItem;
+}
+
+export const deleteAllTodos = (): void => {
+  list = [];
+};
