@@ -1,4 +1,9 @@
-import { listToDos, addTodo, deleteAllTodos } from "../pages/api/todos";
+import {
+  addTodo,
+  deleteAllTodos,
+  getTodoByID,
+  listToDos,
+} from "../utils/todos";
 
 describe("listToDos function", () => {
   it("returns empty array", () => {
@@ -27,5 +32,20 @@ describe("addTodo function", () => {
   it("adds a property 'completed: false", () => {
     let result = addTodo({ title: "clean up the kitchen, Adam" });
     expect(result).toHaveProperty("completed", false);
+  });
+  it("adds a url", () => {
+    let result = addTodo({ title: "eat lunch" });
+    expect(result).toHaveProperty("url", "http://localhost:3000/api/todos/2");
+  });
+});
+
+describe("getTodoByID", () => {
+  it("should return only one object", () => {
+    let result = getTodoByID(2);
+    expect(result).toEqual({
+      title: "eat lunch",
+      completed: false,
+      url: "http://localhost:3000/api/todos/2",
+    });
   });
 });

@@ -2,6 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import Cors from "cors";
 import { runMiddleware } from "../../utils/middleware";
+import { addTodo, deleteAllTodos, listToDos } from "../../utils/todos";
 
 // Initializing the cors middleware
 // You can read more about the available options here: https://github.com/expressjs/cors#configuration-options
@@ -23,36 +24,9 @@ export default async function handler(
     //sending response to client
     res.json(addTodo(req.body));
   } else if (req.method === "DELETE") {
-    deleteAllTodos();
-    res.json(listToDos());
+    res.json(deleteAllTodos());
   } else {
     //sending response to client
     res.json(listToDos());
   }
 }
-
-type NewTodoItem = {
-  title: string;
-};
-
-type Item = {
-  title: string;
-  completed: boolean;
-};
-
-let list: Array<Item> = [];
-
-export function listToDos(): Array<Item> {
-  //Add empty array to start with
-  return list;
-}
-
-export function addTodo(item: NewTodoItem) {
-  const listItem = { ...item, completed: false };
-  list.push(listItem);
-  return listItem;
-}
-
-export const deleteAllTodos = (): void => {
-  list = [];
-};
