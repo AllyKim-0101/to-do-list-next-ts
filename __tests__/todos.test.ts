@@ -3,6 +3,7 @@ import {
   deleteAllTodos,
   getTodoByID,
   listToDos,
+  modifyTodo,
 } from "../utils/todos";
 
 describe("listToDos function", () => {
@@ -35,7 +36,7 @@ describe("addTodo function", () => {
   });
   it("adds a url", () => {
     let result = addTodo({ title: "eat lunch" });
-    expect(result).toHaveProperty("url", "http://localhost:3000/api/todos/2");
+    expect(result.url).toEqual("http://localhost:3000/api/todos/2");
   });
 });
 
@@ -45,6 +46,25 @@ describe("getTodoByID", () => {
     expect(result).toEqual({
       title: "eat lunch",
       completed: false,
+      url: "http://localhost:3000/api/todos/2",
+    });
+  });
+});
+
+describe("modifyTodo", () => {
+  it("should return modified to-do-item of title", () => {
+    let result = modifyTodo({ title: "eat dinner" }, 2);
+    expect(result).toEqual({
+      title: "eat dinner",
+      completed: false,
+      url: "http://localhost:3000/api/todos/2",
+    });
+  });
+  it("should return modified to-do-item of completed", () => {
+    let result = modifyTodo({ completed: true }, 2);
+    expect(result).toEqual({
+      title: "eat dinner",
+      completed: true,
       url: "http://localhost:3000/api/todos/2",
     });
   });

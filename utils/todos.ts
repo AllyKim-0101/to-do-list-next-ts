@@ -8,6 +8,11 @@ export type Item = {
   url: string;
 };
 
+export type ItemPatch = {
+  title?: string;
+  completed?: boolean;
+};
+
 //Add empty array to start with
 let list: Array<Item> = [];
 
@@ -40,4 +45,21 @@ export const getTodoByID = (todoId: number): Item | undefined => {
     const currentToDoId = todoItem[todoItem.length - 1];
     return Number(currentToDoId) === todoId;
   });
+};
+
+export const modifyTodo = (
+  modifiedItem: ItemPatch,
+  todoId: number
+): Item | undefined => {
+  //find the specific item to change
+  const specificTodo = getTodoByID(todoId);
+  //overwrite existing one with new one in the specific one
+  if (specificTodo && modifiedItem.title) {
+    specificTodo.title = modifiedItem.title;
+  }
+  if (specificTodo && modifiedItem.completed) {
+    specificTodo.completed = modifiedItem.completed;
+  }
+  //return the overwritten one
+  return specificTodo;
 };
