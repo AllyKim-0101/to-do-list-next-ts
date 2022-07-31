@@ -25,11 +25,14 @@ export function listToDos(): Array<Item> {
 
 let todoIndex = 0;
 
-export function addTodo(item: NewTodoItem) {
+export function addTodo(
+  item: NewTodoItem,
+  dynamicURL: string = "http://localhost:3000"
+) {
   const listItem = {
     ...item,
     completed: false,
-    url: `http://localhost:3000/api/todos/${todoIndex}`,
+    url: `${dynamicURL}/api/todos/${todoIndex}`,
   };
   list.push(listItem);
   todoIndex++;

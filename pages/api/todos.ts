@@ -21,8 +21,10 @@ export default async function handler(
   // Rest of the API logic
   // Add title
   if (req.method === "POST") {
+    const scheme = req.headers["x-forwarded-proto"] || "http";
+    const dynamicURL = `${scheme}://${req.headers.host}`;
     //sending response to client
-    res.json(addTodo(req.body));
+    res.json(addTodo(req.body, dynamicURL));
   } else if (req.method === "DELETE") {
     res.json(deleteAllTodos());
   } else {
