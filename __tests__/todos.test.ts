@@ -1,6 +1,7 @@
 import {
   addTodo,
   deleteAllTodos,
+  deleteTodo,
   getTodoByID,
   listToDos,
   modifyTodo,
@@ -67,5 +68,26 @@ describe("modifyTodo", () => {
       completed: true,
       url: "http://localhost:3000/api/todos/2",
     });
+  });
+
+  it("should return modified to-do-item of order", () => {
+    let result = modifyTodo({ order: 95 }, 2);
+    expect(result).toEqual({
+      title: "eat dinner",
+      completed: true,
+      url: "http://localhost:3000/api/todos/2",
+      order: 95,
+    });
+  });
+});
+
+describe("deleteTodo", () => {
+  it("should delete the todo linked to the specific id", () => {
+    //list todo with the ID
+    expect(getTodoByID(2)).not.toBeUndefined();
+    //delete the todo with the ID
+    deleteTodo(2);
+    //check if the todo with the ID exists
+    expect(getTodoByID(2)).toBeUndefined();
   });
 });

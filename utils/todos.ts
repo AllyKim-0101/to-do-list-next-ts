@@ -6,14 +6,17 @@ export type Item = {
   title: string;
   completed: boolean;
   url: string;
+  order?: number;
 };
 
 export type ItemPatch = {
   title?: string;
   completed?: boolean;
+  order?: number;
 };
 
 //Add empty array to start with
+//and it will get new todos as the functions below get executed
 let list: Array<Item> = [];
 
 export function listToDos(): Array<Item> {
@@ -38,11 +41,23 @@ export const deleteAllTodos = (): Array<Item> => {
   return list;
 };
 
+export const deleteTodo = (todoId: number): void => {
+  // filter by id and delete the todo with the specific ID
+  //change the existing list to be the same as the list below
+  list = list.filter((item) => {
+    const todoItem = item.url.split("/");
+    const currentToDoId = todoItem[todoItem.length - 1];
+    //do not keep todo with the ID
+    return Number(currentToDoId) !== todoId;
+  });
+};
+
 export const getTodoByID = (todoId: number): Item | undefined => {
   //todo: in list, find the todo with the ID
   return list.find((item) => {
     const todoItem = item.url.split("/");
     const currentToDoId = todoItem[todoItem.length - 1];
+    //return the item with ID when it is true
     return Number(currentToDoId) === todoId;
   });
 };
@@ -59,6 +74,9 @@ export const modifyTodo = (
   }
   if (specificTodo && modifiedItem.completed) {
     specificTodo.completed = modifiedItem.completed;
+  }
+  if (specificTodo && modifiedItem.order) {
+    specificTodo.order = modifiedItem.order;
   }
   //return the overwritten one
   return specificTodo;
