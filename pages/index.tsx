@@ -59,11 +59,14 @@ const Home: NextPage = () => {
             ></input>
             <button type="submit">Submit</button>
           </form>
-          <ul>
+          <div className={styles.checkboxList}>
             {toDoList.map((toDoItem) => (
-              <li key={toDoItem.url}>{toDoItem.title}</li>
+              <label key={toDoItem.url}>
+                <input type="checkbox" value={toDoItem.url}></input>
+                {toDoItem.title}
+              </label>
             ))}
-          </ul>
+          </div>
         </div>
       </main>
     </div>
