@@ -51,6 +51,7 @@ const Home: NextPage = () => {
                 .then((response) => response.json())
                 .then((data) => {
                   console.log("success", data);
+                  setToDoList([...toDoList, data]);
                 });
             }}
           >
