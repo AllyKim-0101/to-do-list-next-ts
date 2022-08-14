@@ -1,13 +1,30 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import styles from "../styles/Home.module.css";
 import type { Item } from "../utils/todos";
 const Home: NextPage = () => {
   const [inputValue, setInputValue] = useState("");
   const [toDoList, setToDoList] = useState<Item[]>([]);
 
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const data = { title: inputValue };
+    fetch("/api/todos", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("success", data);
+        setToDoList([...toDoList, data]);
+        setInputValue("");
+      });
+  };
   //Display todolist from API
   useEffect(() => {
     //1.fetch from a todos API
@@ -31,32 +48,17 @@ const Home: NextPage = () => {
         <h1 className={styles.title}>To-do-list</h1>
 
         <div>
-          <input
-            type="text"
-            title="Add a new todo item"
-            onChange={(e) => {
-              setInputValue(e.target.value);
-            }}
-          ></input>
-          <button
-            onClick={() => {
-              const data = { title: inputValue };
-              fetch("/api/todos", {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify(data),
-              })
-                .then((response) => response.json())
-                .then((data) => {
-                  console.log("success", data);
-                  setToDoList([...toDoList, data]);
-                });
-            }}
-          >
-            Submit
-          </button>
+          <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              title="Add a new todo item"
+              value={inputValue}
+              onChange={(e) => {
+                setInputValue(e.target.value);
+              }}
+            ></input>
+            <button type="submit">Submit</button>
+          </form>
           <ul>
             {toDoList.map((toDoItem) => (
               <li key={toDoItem.url}>{toDoItem.title}</li>
