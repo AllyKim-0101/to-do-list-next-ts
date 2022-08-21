@@ -64,6 +64,7 @@ const Home: NextPage = () => {
               <div>
                 <label key={toDoItem.url}>
                   <input
+                    defaultChecked={toDoItem.completed}
                     type="checkbox"
                     value={toDoItem.url}
                     onChange={(e) => {
