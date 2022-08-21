@@ -69,12 +69,20 @@ describe("modifyTodo", () => {
       url: "http://localhost:3000/api/todos/2",
     });
   });
+  it("should return modified to-do-item when completed is false", () => {
+    let result = modifyTodo({ completed: false }, 2);
+    expect(result).toEqual({
+      title: "eat dinner",
+      completed: false,
+      url: "http://localhost:3000/api/todos/2",
+    });
+  });
 
   it("should return modified to-do-item of order", () => {
     let result = modifyTodo({ order: 95 }, 2);
     expect(result).toEqual({
       title: "eat dinner",
-      completed: true,
+      completed: false,
       url: "http://localhost:3000/api/todos/2",
       order: 95,
     });

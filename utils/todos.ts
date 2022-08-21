@@ -75,7 +75,7 @@ export const modifyTodo = (
   if (specificTodo && modifiedItem.title) {
     specificTodo.title = modifiedItem.title;
   }
-  if (specificTodo && modifiedItem.completed) {
+  if (specificTodo && modifiedItem.completed !== undefined) {
     specificTodo.completed = modifiedItem.completed;
   }
   if (specificTodo && modifiedItem.order) {
