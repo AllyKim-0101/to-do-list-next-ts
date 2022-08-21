@@ -62,7 +62,19 @@ const Home: NextPage = () => {
           <div className={styles.checkboxList}>
             {toDoList.map((toDoItem) => (
               <label key={toDoItem.url}>
-                <input type="checkbox" value={toDoItem.url}></input>
+                <input
+                  type="checkbox"
+                  value={toDoItem.url}
+                  onChange={(e) => {
+                    fetch(e.target.value, {
+                      method: "PATCH",
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
+                      body: JSON.stringify({ completed: e.target.checked }),
+                    });
+                  }}
+                ></input>
                 {toDoItem.title}
               </label>
             ))}
