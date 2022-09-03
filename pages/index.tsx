@@ -1,6 +1,5 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import Image from "next/image";
 import { FormEvent, useEffect, useState } from "react";
 import styles from "../styles/Home.module.css";
 import type { Item } from "../utils/todos";
@@ -79,7 +78,19 @@ const Home: NextPage = () => {
                   ></input>
                   {toDoItem.title}
                 </label>
-                <span className={styles.delete}>x</span>
+                <span
+                  className={styles.delete}
+                  onClick={() => {
+                    fetch(toDoItem.url, {
+                      method: "DELETE",
+                    })
+                      .then(() => fetch("/api/todos"))
+                      .then((response) => response.json())
+                      .then((data) => setToDoList(data));
+                  }}
+                >
+                  x
+                </span>
               </div>
             ))}
           </div>
